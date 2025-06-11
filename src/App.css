@@ -1,0 +1,24 @@
+:root {
+  --main-color: #6F3797;
+  --background-color: #ECECEC;
+  --background-color-1: #F9F9F9;
+  --text-color: #121112;
+  --text-grey-color:#645E5E;
+}
+
+.dashboard{
+    display: grid;
+    grid-template-columns: auto 2fr;
+    gap: 2.4rem;
+}
+
+.dashboard--content{
+    background: var(--background-color-1);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-right: 1rem;
+    height: 92vh;
+    overflow-y: auto; 
+    scrollbar-width: thin;
+    scrollbar-color: var(--main-color) var(--background-color-1);
+}

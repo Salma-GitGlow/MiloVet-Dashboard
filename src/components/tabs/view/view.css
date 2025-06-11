@@ -1,0 +1,98 @@
+.view-card-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.card-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #6F3797;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-details {
+  width: 100%;
+}
+
+.card-details p {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ECECEC;
+}
+
+.card-details strong {
+  color: #6F3797;
+  margin-right: 0.5rem;
+}
+
+.animals-section {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.animals-section h4 {
+  color: #6F3797;
+  margin-bottom: 0.5rem;
+}
+
+.animals-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.animals-section li {
+  padding: 0.3rem 0;
+}
+
+.modal-overlay {
+    
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+    width: 50%;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  cursor: pointer;
+  color: #6F3797;
+}

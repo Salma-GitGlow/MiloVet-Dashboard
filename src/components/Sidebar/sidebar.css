@@ -1,0 +1,54 @@
+:root {
+  --main-color: #6F3797;
+  --accent-color:#b596c7;
+  --background-color: #ECECEC;
+  --text-color: #121112;
+  --text-grey-color:#645E5E;
+}
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    gap:2.3rem;
+    height: 94vh;
+}
+
+.logo {
+
+  width: 14rem;
+  height: auto;
+  padding-top: 20px;
+  align-items: center;
+  display: flex;
+  gap:20px;
+  
+}
+
+.menu-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-list .item{
+    display:flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    color: var(--text-color);
+}
+
+.menu-list .item:hover{
+    background: var(--accent-color);
+    /* color: #FFFFFF; */
+    cursor: pointer;
+}
+.menu-list .item.active {
+    background-color: var(--main-color);
+     color: #FFFFFF;
+}
