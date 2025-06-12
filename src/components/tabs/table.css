@@ -89,3 +89,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.no-data-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  color: var(--text-grey-color);
+  font-size: 1.1rem;
+}

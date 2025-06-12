@@ -1,7 +1,7 @@
 // src/components/tabs/HomeTab.jsx
 import React from "react";
 import { BiUser, BiBook, BiCart } from "react-icons/bi";
-import { FaDog, FaCat, FaHorse } from "react-icons/fa";
+import { FaDog } from "react-icons/fa";
 import Card from "../Card/Card";
 
 const HomeTab = () => {
@@ -32,21 +32,7 @@ const HomeTab = () => {
         icon={FaDog}
         endpoint="https://milovetapi.onrender.com/api/animals/"
       />
-      {/* <Card
-        title="Dogs"
-        icon={FaDog}
-        endpoint="https://milovetapi.onrender.com/api/dogs/"
-      />
-      <Card
-        title="Cats"
-        icon={FaCat}
-        endpoint="https://milovetapi.onrender.com/api/cats/"
-      />
-      <Card
-        title="Horses"
-        icon={FaHorse}
-        endpoint="https://milovetapi.onrender.com/api/horses/"
-      /> */}
+
       <Card
         title="Products"
         icon={BiCart}

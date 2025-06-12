@@ -1,5 +1,4 @@
-// src/components/Content.jsx
-import React from "react";
+import React, { useState } from "react";
 import ContentHeader from "./ContentHeader";
 import HomeTab from "../tabs/HomeTab";
 import OwnersTab from "../tabs/OwnersTab";
@@ -21,23 +20,33 @@ const tabTitles = {
 };
 
 const Content = ({ activeTab }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
   const renderTabContent = () => {
+    const commonProps = {
+      searchTerm: activeTab !== "home" ? searchTerm : "",
+      onSearch: handleSearch,
+    };
+
     switch (activeTab) {
       case "home":
         return <HomeTab />;
       case "owners":
-        return <OwnersTab />;
+        return <OwnersTab {...commonProps} />;
       case "vets":
-        return <VetsTab />;
+        return <VetsTab {...commonProps} />;
       case "animals":
-        return <AnimalsTab />;
+        return <AnimalsTab {...commonProps} />;
       case "articles":
-        return <ArticlesTab />;
+        return <ArticlesTab {...commonProps} />;
       case "diseases":
-        return <DiseasesTab />;
+        return <DiseasesTab {...commonProps} />;
       case "products":
-        return <ProductsTab />;
-
+        return <ProductsTab {...commonProps} />;
       default:
         return <HomeTab />;
     }
@@ -45,7 +54,11 @@ const Content = ({ activeTab }) => {
 
   return (
     <div className="content">
-      <ContentHeader title={tabTitles[activeTab]} />
+      <ContentHeader
+        title={tabTitles[activeTab]}
+        onSearch={handleSearch}
+        showSearch={activeTab !== "home"}
+      />
       {renderTabContent()}
     </div>
   );

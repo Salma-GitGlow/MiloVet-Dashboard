@@ -1,7 +1,7 @@
 import React from "react";
 import GenericTab from "./GenericTab";
 
-const OwnersTab = () => {
+const OwnersTab = ({ searchTerm }) => {
   const columns = [
     { key: "_id", header: "ID" },
     { key: "title", header: "Title" },
@@ -18,6 +18,8 @@ const OwnersTab = () => {
       endpoint="https://milovetapi.onrender.com/api/products"
       columns={columns}
       title="Products"
+      searchTerm={searchTerm}
+      searchFields={["title", "category"]}
     />
   );
 };

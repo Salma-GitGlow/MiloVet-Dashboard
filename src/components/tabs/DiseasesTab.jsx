@@ -1,7 +1,7 @@
 import React from "react";
 import GenericTab from "./GenericTab";
 
-const DiseasesTab = () => {
+const DiseasesTab = ({ searchTerm }) => {
   const columns = [
     { key: "_id", header: "ID" },
     { key: "title", header: "Disease Title" },
@@ -14,6 +14,8 @@ const DiseasesTab = () => {
       endpoint="https://milovetapi.onrender.com/api/diseases"
       columns={columns}
       title="Diseases"
+      searchTerm={searchTerm}
+      searchFields={["title"]}
     />
   );
 };

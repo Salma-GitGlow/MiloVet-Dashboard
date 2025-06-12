@@ -96,3 +96,49 @@
   cursor: pointer;
   color: #6F3797;
 }
+
+
+.article-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+
+.article-image-container {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.article-content-box {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.article-content-box h3 {
+  color: var(--main-color);
+  margin-bottom: 1rem;
+}
+
+.content-text {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  line-height: 1.8;
+  white-space: pre-line;
+  max-height: 500px;
+  overflow-y: auto;
+}

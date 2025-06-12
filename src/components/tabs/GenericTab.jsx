@@ -5,8 +5,15 @@ import GenericViewCard from "./view/GenericViewCard";
 import "./table.css";
 import "./confirmModel.css";
 
-const GenericTab = ({ endpoint, columns, title }) => {
+const GenericTab = ({
+  endpoint,
+  columns,
+  title,
+  searchTerm,
+  searchFields = [],
+}) => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -19,16 +26,16 @@ const GenericTab = ({ endpoint, columns, title }) => {
       try {
         setLoading(true);
         const response = await fetch(endpoint);
-
-        if (!response.ok) {
+        if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
         const result = await response.json();
         const dataKey = title.toLowerCase();
         const extractedData = result.data?.[dataKey] || result.data || result;
-
-        setData(Array.isArray(extractedData) ? extractedData : [extractedData]);
+        const finalData = Array.isArray(extractedData)
+          ? extractedData
+          : [extractedData];
+        setData(finalData);
+        setFilteredData(finalData); // Initialize filteredData
       } catch (err) {
         setError(`Failed to load ${title} data`);
         console.error(err);
@@ -36,9 +43,21 @@ const GenericTab = ({ endpoint, columns, title }) => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [endpoint, title]);
+
+  useEffect(() => {
+    if (searchTerm && searchFields.length > 0) {
+      const filtered = data.filter((item) =>
+        searchFields.some((field) =>
+          String(item[field]).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(data);
+    }
+  }, [searchTerm, data, searchFields]);
 
   const handleDeleteClick = (id) => {
     setItemToDelete(id);
@@ -50,12 +69,10 @@ const GenericTab = ({ endpoint, columns, title }) => {
       const response = await fetch(`${endpoint}/${itemToDelete}`, {
         method: "DELETE",
       });
-
-      if (!response.ok) {
-        throw new Error("Delete failed");
-      }
-
-      setData(data.filter((item) => item._id !== itemToDelete));
+      if (!response.ok) throw new Error("Delete failed");
+      const updatedData = data.filter((item) => item._id !== itemToDelete);
+      setData(updatedData);
+      setFilteredData(updatedData);
     } catch (err) {
       console.error(`Failed to delete ${title}:`, err);
       alert(`Failed to delete ${title}`);
@@ -77,6 +94,7 @@ const GenericTab = ({ endpoint, columns, title }) => {
         <p className="loading-text">Loading {title} data...</p>
       </div>
     );
+
   if (error)
     return (
       <div className="error-container">
@@ -94,38 +112,44 @@ const GenericTab = ({ endpoint, columns, title }) => {
 
   return (
     <div className="table-container">
-      <table className="table">
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th key={column.key}>{column.header}</th>
-            ))}
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item._id}>
+      {filteredData.length === 0 ? (
+        <div className="no-data-found">
+          No {title.toLowerCase()} found matching your search
+        </div>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr>
               {columns.map((column) => (
-                <td className="truncate-id" key={`${item._id}-${column.key}`}>
-                  {column.render ? column.render(item) : item[column.key]}
-                </td>
+                <th key={column.key}>{column.header}</th>
               ))}
-              <td className="actions-cell">
-                <button className="view-btn" onClick={() => handleView(item)}>
-                  <FaEye /> View
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDeleteClick(item._id)}
-                >
-                  <FaTrash /> Delete
-                </button>
-              </td>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData.map((item) => (
+              <tr key={item._id}>
+                {columns.map((column) => (
+                  <td className="truncate-id" key={`${item._id}-${column.key}`}>
+                    {column.render ? column.render(item) : item[column.key]}
+                  </td>
+                ))}
+                <td className="actions-cell">
+                  <button className="view-btn" onClick={() => handleView(item)}>
+                    <FaEye /> View
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDeleteClick(item._id)}
+                  >
+                    <FaTrash /> Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       <ConfirmModel
         isOpen={showModal}

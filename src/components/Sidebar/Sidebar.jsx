@@ -1,11 +1,11 @@
 import React from "react";
-import { BiHome, BiUser, BiBook, BiCart } from "react-icons/bi";
+import { BiHome, BiUser, BiBook, BiCart, BiLogOut } from "react-icons/bi";
 import { FaDog } from "react-icons/fa";
 import logo from "../../assets/imgs/logo.svg";
 import TabLink from "./TabLink";
 import "./sidebar.css";
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+const Sidebar = ({ activeTab, setActiveTab, onLogout }) => {
   return (
     <div className="menu">
       <img className="logo" src={logo} alt="Logo" />
@@ -54,9 +54,41 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           icon={BiCart}
           label="Products"
         />
+
+        <hr />
+        <div className="logout-item" onClick={onLogout}>
+          <BiLogOut className="icon" />
+          <span>Logout</span>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
+
+// import React from "react";
+// import { BiHome, BiUser, BiBook, BiCart } from "react-icons/bi";
+// import { FaDog } from "react-icons/fa";
+// import logo from "../../assets/imgs/logo.svg";
+// import TabLink from "./TabLink";
+// import "./sidebar.css";
+
+// const Sidebar = ({ activeTab, setActiveTab }) => {
+//   return (
+//     <div className="menu">
+//       <img className="logo" src={logo} alt="Logo" />
+//       <hr />
+
+//         <TabLink
+//           isSelected={activeTab === "products"}
+//           onClick={() => setActiveTab("products")}
+//           icon={BiCart}
+//           label="Products"
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Sidebar;

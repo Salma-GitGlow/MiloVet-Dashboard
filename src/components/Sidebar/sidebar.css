@@ -9,7 +9,7 @@
 .menu{
     display: flex;
     flex-direction: column;
-    gap:2.3rem;
+    gap:1.6rem;
     height: 94vh;
 }
 
@@ -51,4 +51,29 @@
 .menu-list .item.active {
     background-color: var(--main-color);
      color: #FFFFFF;
+}
+
+.logout-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 10px;
+  transition: 0.3s ease-in-out;
+  color: var(--text-color);
+  cursor: pointer;
+  margin-top: auto; 
+  margin-bottom: 20px;
+}
+
+.logout-item:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.logout-item .icon {
+  color: inherit;
 }

@@ -1,8 +1,11 @@
 import React from "react";
 import "./view.css";
+import "../../Content/content.css";
+import { FaUserCircle } from "react-icons/fa";
 import ownerAvatar from "../../../assets/imgs/ownerImg.svg";
 import animalAvatar from "../../../assets/imgs/horse.svg";
 import vetAvatar from "../../../assets/imgs/vetImg.svg";
+import articleAvatar from "../../../assets/imgs/artcleImg.svg";
 
 const GenericViewCard = ({ data, type }) => {
   const renderContent = () => {
@@ -135,6 +138,154 @@ const GenericViewCard = ({ data, type }) => {
               <p>
                 <strong>Speciality:</strong> {vetData.speciality}
               </p>
+            </div>
+          </>
+        );
+
+      case "articles":
+        console.log("Raw data received:", data);
+        const articleData = data.article || data;
+        console.log("Processed vetData:", articleData);
+        if (!articleData) {
+          console.error("Vet data is undefined!");
+          return <div>Error: No article data found</div>;
+        }
+        return (
+          <>
+            <div className="article-view-container">
+              <div className="article-image-container">
+                <img
+                  src={articleData.avatar || articleData.photo || articleAvatar}
+                  alt={articleData.title}
+                  className="article-image"
+                  onError={(e) => {
+                    e.target.src = articleAvatar;
+                  }}
+                />
+              </div>
+
+              <div className="card-details">
+                <div className="article-content-box">
+                  <h3>Article Content:</h3>
+                  <div className="content-text">{articleData.content}</div>
+                </div>
+                <p>
+                  <strong>ID:</strong> {articleData._id}
+                </p>
+                <p>
+                  <strong>Title:</strong> {articleData.title}
+                </p>
+                <p>
+                  <strong>Category:</strong> {articleData.category}
+                </p>
+                <p>
+                  <strong>Author:</strong>{" "}
+                  {articleData.vetId
+                    ? `${articleData.vetId.firstName} ${articleData.vetId.lastName}`
+                    : "John Smith"}
+                </p>
+                <p>
+                  <strong>Created Time:</strong> {articleData.createdTime}
+                </p>
+              </div>
+            </div>
+          </>
+        );
+
+      case "diseases":
+        console.log("Raw data received:", data);
+        const diseaseData = data.disease || data;
+        console.log("Processed vetData:", diseaseData);
+        if (!diseaseData) {
+          console.error("Vet data is undefined!");
+          return <div>Error: No disease data found</div>;
+        }
+        return (
+          <>
+            <div className="article-view-container">
+              <div className="article-image-container">
+                <img
+                  src={diseaseData.avatar || diseaseData.photo || articleAvatar}
+                  alt={diseaseData.title}
+                  className="article-image"
+                  onError={(e) => {
+                    e.target.src = articleAvatar;
+                  }}
+                />
+              </div>
+
+              <div className="card-details">
+                <div className="article-content-box">
+                  <h3>Disease Content:</h3>
+                  <div className="content-text">{diseaseData.content}</div>
+                </div>
+                <p>
+                  <strong>ID:</strong> {diseaseData._id}
+                </p>
+                <p>
+                  <strong>Title:</strong> {diseaseData.title}
+                </p>
+                <p>
+                  <strong>Created Time:</strong> {diseaseData.createdTime}
+                </p>
+              </div>
+            </div>
+          </>
+        );
+
+      case "products":
+        console.log("Raw data received:", data);
+        const productData = data.product || data;
+        console.log("Processed vetData:", productData);
+        if (!productData) {
+          console.error("Vet data is undefined!");
+          return <div>Error: No product data found</div>;
+        }
+        return (
+          <>
+            <div className="article-view-container">
+              <div className="article-image-container">
+                <img
+                  src={
+                    productData.avatar ||
+                    productData.photo ||
+                    productData.images ||
+                    articleAvatar
+                  }
+                  alt={productData.title}
+                  className="article-image"
+                  onError={(e) => {
+                    e.target.src = articleAvatar;
+                  }}
+                />
+              </div>
+
+              <div className="card-details">
+                <p>
+                  <strong>ID:</strong> {productData._id}
+                </p>
+                <p>
+                  <strong>Title:</strong> {productData.title}
+                </p>
+                <p>
+                  <strong>Description:</strong> {productData.description}
+                </p>
+                <p>
+                  <strong>Category:</strong> {productData.category}
+                </p>
+                <p>
+                  <strong>Price:</strong> {productData.price}
+                </p>
+                <p>
+                  <strong>Quantity:</strong> {productData.quantity}
+                </p>
+                <p>
+                  <strong>Rating:</strong> {productData.rating} ⭐
+                </p>
+                <p>
+                  <strong>Sold:</strong> {productData.sold}
+                </p>
+              </div>
             </div>
           </>
         );
