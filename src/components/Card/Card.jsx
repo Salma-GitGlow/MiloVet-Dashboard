@@ -9,7 +9,7 @@ const Card = ({ title, icon: Icon, endpoint }) => {
     <div className="card">
       <div className="title">
         <Icon className="icon" />
-        <h4>{title}</h4>
+        <h4>Total {title}</h4>
       </div>
       <span>{count}</span>
     </div>

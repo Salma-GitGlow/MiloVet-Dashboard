@@ -27,7 +27,7 @@
 .menu-list{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
 }
 
 .menu-list .item{

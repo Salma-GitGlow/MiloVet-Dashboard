@@ -24,7 +24,7 @@
     padding: 15px;
     border-radius: 12px; 
     border: var(--accent-color) 1px solid;
-    width: 200px;
+    width: auto;
 }
 
 

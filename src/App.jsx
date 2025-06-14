@@ -8,21 +8,49 @@ const App = () => {
   const [admin, setAdmin] = useState(null);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      const shouldForceLogin = sessionStorage.getItem("dev_force_login");
+      if (!shouldForceLogin) {
+        sessionStorage.setItem("dev_force_login", "true");
+        localStorage.removeItem("token");
+        localStorage.removeItem("admin");
+        return;
+      }
+    }
+
     const token = localStorage.getItem("token");
-    if (token) {
+    const adminData = localStorage.getItem("admin");
+
+    if (token && adminData) {
       setIsAuthenticated(true);
+      setAdmin(JSON.parse(adminData));
     }
   }, []);
 
-  const handleLogin = (adminData) => {
+  const handleLogin = (loginResponse) => {
+    if (!loginResponse?.token) {
+      console.error("Invalid login data");
+      return;
+    }
+
     setIsAuthenticated(true);
-    setAdmin(adminData);
+    setAdmin(loginResponse.admin);
+    localStorage.setItem("token", loginResponse.token);
+    localStorage.setItem("admin", JSON.stringify(loginResponse.admin));
+
+    if (process.env.NODE_ENV === "development") {
+      sessionStorage.setItem("dev_force_login", "false");
+    }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     setIsAuthenticated(false);
     setAdmin(null);
+
+    if (process.env.NODE_ENV === "development") {
+      sessionStorage.setItem("dev_force_login", "true");
+    }
   };
 
   return (

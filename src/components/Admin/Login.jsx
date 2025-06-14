@@ -14,16 +14,41 @@ const Login = ({ onLogin }) => {
     try {
       const response = await axios.post(
         "https://milovetapi.onrender.com/api/admins/login",
-        {
-          username,
-          password,
-        }
+        { username, password }
       );
-      localStorage.setItem("token", response.data.token);
-      onLogin(response.data.admin);
+
+      if (!response.data?.data?.admin?.token) {
+        throw new Error("Token not found in response");
+      }
+
+      const { admin } = response.data.data;
+
+      localStorage.setItem("token", admin.token);
+      localStorage.setItem(
+        "admin",
+        JSON.stringify({
+          _id: admin._id,
+          username: admin.username,
+          role: admin.role,
+        })
+      );
+
+      onLogin({
+        token: admin.token,
+        admin: {
+          _id: admin._id,
+          username: admin.username,
+          role: admin.role,
+        },
+      });
       navigate("/dashboard");
     } catch (err) {
-      setError("Invalid username or password");
+      console.error("Login error:", {
+        status: err.response?.status,
+        data: err.response?.data,
+        message: err.message,
+      });
+      setError(err.response?.data?.message || "Invalid username or password");
     }
   };
 
@@ -50,7 +75,9 @@ const Login = ({ onLogin }) => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button className="login" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );

@@ -26,6 +26,8 @@ const ContentHeader = ({ title, currentUser, onSearch, showSearch }) => {
         return "Search by title...";
       case "Products":
         return "Search by title or category...";
+      case "Orders":
+        return "Search by status, address, ownerID";
       default:
         return "Search...";
     }

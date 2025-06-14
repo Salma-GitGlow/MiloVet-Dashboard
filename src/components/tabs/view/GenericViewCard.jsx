@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./view.css";
+import "../table.css";
 import "../../Content/content.css";
-import { FaUserCircle } from "react-icons/fa";
-import ownerAvatar from "../../../assets/imgs/ownerImg.svg";
+import axois from "../../../utils/axoisConfig.js";
 import animalAvatar from "../../../assets/imgs/horse.svg";
 import vetAvatar from "../../../assets/imgs/vetImg.svg";
 import articleAvatar from "../../../assets/imgs/artcleImg.svg";
 
 const GenericViewCard = ({ data, type }) => {
+  const [ownersData, setOwnersData] = useState({});
+
+  useEffect(() => {
+    const fetchOwners = async () => {
+      try {
+        const response = await axois.get(
+          "https://milovetapi.onrender.com/api/owners"
+        );
+        const owners = response.data.data?.owners || response.data.data || [];
+
+        const ownersMap = {};
+        owners.forEach((owner) => {
+          ownersMap[owner._id] = {
+            name: `${owner.firstName} ${owner.lastName}`,
+            email: owner.email,
+            phone: owner.phone,
+          };
+        });
+
+        setOwnersData(ownersMap);
+      } catch (err) {
+        console.error("Failed to fetch owners:", err);
+      }
+    };
+
+    fetchOwners();
+  }, []);
+
   const renderContent = () => {
     switch (type) {
       case "owner":
@@ -179,12 +207,6 @@ const GenericViewCard = ({ data, type }) => {
                   <strong>Category:</strong> {articleData.category}
                 </p>
                 <p>
-                  <strong>Author:</strong>{" "}
-                  {articleData.vetId
-                    ? `${articleData.vetId.firstName} ${articleData.vetId.lastName}`
-                    : "John Smith"}
-                </p>
-                <p>
                   <strong>Created Time:</strong> {articleData.createdTime}
                 </p>
               </div>
@@ -274,7 +296,8 @@ const GenericViewCard = ({ data, type }) => {
                   <strong>Category:</strong> {productData.category}
                 </p>
                 <p>
-                  <strong>Price:</strong> {productData.price}
+                  <strong>Price:</strong> $
+                  {productData.price?.toFixed(2) || "0.00"}
                 </p>
                 <p>
                   <strong>Quantity:</strong> {productData.quantity}
@@ -284,6 +307,55 @@ const GenericViewCard = ({ data, type }) => {
                 </p>
                 <p>
                   <strong>Sold:</strong> {productData.sold}
+                </p>
+              </div>
+            </div>
+          </>
+        );
+      case "orders":
+        console.log("Raw data received:", data);
+        const ordersData = data.order || data;
+        console.log("Processed ordersData:", ordersData);
+        if (!ordersData) {
+          console.error("orders data is undefined!");
+          return <div>Error: No order data found</div>;
+        }
+
+        const ownerInfo = ownersData[ordersData.ownerId] || {
+          name: "Unknown Owner",
+          email: "N/A",
+          phone: "N/A",
+        };
+
+        return (
+          <>
+            <div className="article-view-container">
+              <div className="card-details">
+                <p>
+                  <strong>ID:</strong> {ordersData._id}
+                </p>
+                <p>
+                  <strong>Owner Name:</strong> {ownerInfo.name}
+                </p>
+
+                <p>
+                  <strong>Items Count:</strong> {ordersData.items.length}
+                </p>
+                <p>
+                  <strong>Total Amount:</strong>$
+                  {ordersData.totalAmount?.toFixed(2) || "0.00"}
+                </p>
+                <p>
+                  <strong>Status:</strong>{" "}
+                  <span className={`status-badge ${ordersData.status}`}>
+                    {ordersData.status}
+                  </span>
+                </p>
+                <p>
+                  <strong>Address:</strong> {ordersData.address}{" "}
+                </p>
+                <p>
+                  <strong>Created Time:</strong> {ordersData.createdAt}
                 </p>
               </div>
             </div>

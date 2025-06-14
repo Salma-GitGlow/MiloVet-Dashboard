@@ -92,9 +92,9 @@
   right: 1rem;
   background: none;
   border: none;
-  font-size: 2.2rem;
+  font-size: 2.2rem !important;
   cursor: pointer;
-  color: #6F3797;
+  color: #6F3797 !important;
 }
 
 

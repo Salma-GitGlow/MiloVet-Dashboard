@@ -1,6 +1,7 @@
 import React from "react";
 import { BiHome, BiUser, BiBook, BiCart, BiLogOut } from "react-icons/bi";
 import { FaDog } from "react-icons/fa";
+import { FaTags, FaViruses } from "react-icons/fa";
 import logo from "../../assets/imgs/logo.svg";
 import TabLink from "./TabLink";
 import "./sidebar.css";
@@ -45,14 +46,20 @@ const Sidebar = ({ activeTab, setActiveTab, onLogout }) => {
         <TabLink
           isSelected={activeTab === "diseases"}
           onClick={() => setActiveTab("diseases")}
-          icon={BiBook}
+          icon={FaViruses}
           label="Diseases"
         />
         <TabLink
           isSelected={activeTab === "products"}
           onClick={() => setActiveTab("products")}
-          icon={BiCart}
+          icon={FaTags}
           label="Products"
+        />
+        <TabLink
+          isSelected={activeTab === "orders"}
+          onClick={() => setActiveTab("orders")}
+          icon={BiCart}
+          label="Orders"
         />
 
         <hr />

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaTrash } from "react-icons/fa";
+import { FaEye, FaTrash, FaEdit } from "react-icons/fa";
 import ConfirmModel from "./ConfirmModel";
 import GenericViewCard from "./view/GenericViewCard";
+import axios from "../../utils/axoisConfig.js";
 import "./table.css";
 import "./confirmModel.css";
 
@@ -11,6 +12,9 @@ const GenericTab = ({
   title,
   searchTerm,
   searchFields = [],
+  refreshTrigger,
+  allowEdit = false,
+  onEdit,
 }) => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -25,33 +29,52 @@ const GenericTab = ({
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(endpoint);
-        if (!response.ok)
-          throw new Error(`HTTP error! status: ${response.status}`);
-        const result = await response.json();
-        const dataKey = title.toLowerCase();
-        const extractedData = result.data?.[dataKey] || result.data || result;
-        const finalData = Array.isArray(extractedData)
-          ? extractedData
-          : [extractedData];
+        const response = await axios.get(endpoint);
+
+        let responseData = response.data.data;
+
+        if (title.toLowerCase() === "orders" && responseData?.orders) {
+          responseData = responseData.orders;
+        } else {
+          const dataKey = title.toLowerCase();
+          if (responseData && responseData[dataKey]) {
+            responseData = responseData[dataKey];
+          }
+        }
+
+        const finalData = Array.isArray(responseData)
+          ? responseData
+          : [responseData];
         setData(finalData);
-        setFilteredData(finalData); // Initialize filteredData
+        setFilteredData(finalData);
       } catch (err) {
-        setError(`Failed to load ${title} data`);
-        console.error(err);
+        console.error("Fetch error:", err);
+        setError(err.response?.data?.message || `Failed to load ${title}`);
+        if (err.response?.status === 401) {
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+        }
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, [endpoint, title]);
+  }, [endpoint, title, refreshTrigger]);
 
   useEffect(() => {
     if (searchTerm && searchFields.length > 0) {
       const filtered = data.filter((item) =>
-        searchFields.some((field) =>
-          String(item[field]).toLowerCase().includes(searchTerm.toLowerCase())
-        )
+        searchFields.some((field) => {
+          const fieldValue = item[field];
+          if (typeof fieldValue === "string") {
+            return fieldValue.toLowerCase().includes(searchTerm.toLowerCase());
+          }
+          if (typeof fieldValue === "number") {
+            return fieldValue.toString().includes(searchTerm);
+          }
+          return false;
+        })
       );
       setFilteredData(filtered);
     } else {
@@ -66,16 +89,18 @@ const GenericTab = ({
 
   const handleConfirmDelete = async () => {
     try {
-      const response = await fetch(`${endpoint}/${itemToDelete}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Delete failed");
+      await axios.delete(`${endpoint}/${itemToDelete}`);
+
       const updatedData = data.filter((item) => item._id !== itemToDelete);
       setData(updatedData);
       setFilteredData(updatedData);
     } catch (err) {
       console.error(`Failed to delete ${title}:`, err);
-      alert(`Failed to delete ${title}`);
+      alert(
+        `Failed to delete ${title}: ${
+          err.response?.data?.message || err.message
+        }`
+      );
     } finally {
       setShowModal(false);
       setItemToDelete(null);
@@ -87,15 +112,22 @@ const GenericTab = ({
     setShowViewCard(true);
   };
 
-  if (loading)
+  const handleEdit = (item) => {
+    if (onEdit) {
+      onEdit(item);
+    }
+  };
+
+  if (loading) {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
         <p className="loading-text">Loading {title} data...</p>
       </div>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
       <div className="error-container">
         <div className="error-icon">!</div>
@@ -109,6 +141,7 @@ const GenericTab = ({
         </button>
       </div>
     );
+  }
 
   return (
     <div className="table-container">
@@ -130,7 +163,7 @@ const GenericTab = ({
             {filteredData.map((item) => (
               <tr key={item._id}>
                 {columns.map((column) => (
-                  <td className="truncate-id" key={`${item._id}-${column.key}`}>
+                  <td key={`${item._id}-${column.key}`} className="truncate-id">
                     {column.render ? column.render(item) : item[column.key]}
                   </td>
                 ))}
@@ -138,6 +171,16 @@ const GenericTab = ({
                   <button className="view-btn" onClick={() => handleView(item)}>
                     <FaEye /> View
                   </button>
+
+                  {allowEdit && (
+                    <button
+                      className="edit-btn"
+                      onClick={() => handleEdit(item)}
+                    >
+                      <FaEdit /> Edit
+                    </button>
+                  )}
+
                   <button
                     className="delete-btn"
                     onClick={() => handleDeleteClick(item._id)}

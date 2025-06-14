@@ -7,6 +7,7 @@ import AnimalsTab from "../tabs/AnimalsTab";
 import ArticlesTab from "../tabs/ArticlesTab";
 import DiseasesTab from "../tabs/DiseasesTab";
 import ProductsTab from "../tabs/ProductsTab";
+import OrdersTab from "../tabs/OrdersTab";
 import "./content.css";
 
 const tabTitles = {
@@ -17,6 +18,7 @@ const tabTitles = {
   articles: "Articles",
   diseases: "Diseases",
   products: "Products",
+  orders: "Orders",
 };
 
 const Content = ({ activeTab }) => {
@@ -47,6 +49,8 @@ const Content = ({ activeTab }) => {
         return <DiseasesTab {...commonProps} />;
       case "products":
         return <ProductsTab {...commonProps} />;
+      case "orders":
+        return <OrdersTab {...commonProps} />;
       default:
         return <HomeTab />;
     }

@@ -47,7 +47,7 @@
   font-size: 1rem;
 }
 
-button[type="submit"] {
+.login{
   width: 100%;
   padding: 0.75rem;
   background-color: #6F3797;
@@ -60,7 +60,7 @@ button[type="submit"] {
   transition: 0.3s ease-in-out;
 }
 
-button[type="submit"]:hover{
+.login:hover{
   background-color: #592b7a;
 }
 .error-message {

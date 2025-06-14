@@ -18,6 +18,7 @@
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
+  /* table-layout: fixed; */
 }
 
 .table th {
@@ -34,6 +35,8 @@
   border-bottom: 1px solid #ddd;
   color: var(--text-color);
   text-align: center;
+  word-wrap: break-word;
+  vertical-align: top;
 }
 
 
@@ -45,12 +48,15 @@
   background-color: var(--row-hover);
 }
 
+
+
 .actions-cell {
   /* width: auto ; */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  
 }
 
 .view-btn, .delete-btn {
@@ -99,4 +105,41 @@
   border-radius: 8px;
   color: var(--text-grey-color);
   font-size: 1.1rem;
+}
+
+/* Orders */
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-badge.confirmed {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.shipped {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.delivered {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-badge.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.amount-cell {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  text-align: right;
 }
