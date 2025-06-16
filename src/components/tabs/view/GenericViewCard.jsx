@@ -43,11 +43,11 @@ const GenericViewCard = ({ data, type }) => {
           <>
             <div className="card-image">
               <img
-                src={data.avatar || data.photo || ownerAvatar}
+                src={data.avatar || data.photo}
                 alt={data.firstName}
-                onError={(e) => {
-                  e.target.src = ownerAvatar;
-                }}
+                // onError={(e) => {
+                //   e.target.src = ownerAvatar;
+                // }}
               />
             </div>
             <div className="card-details">
@@ -89,11 +89,11 @@ const GenericViewCard = ({ data, type }) => {
           <>
             <div className="card-image">
               <img
-                src={data.avatar || data.photo || animalAvatar}
+                src={data.avatar || data.photo}
                 alt={data.animalName}
-                onError={(e) => {
-                  e.target.src = animalAvatar;
-                }}
+                // onError={(e) => {
+                //   e.target.src = animalAvatar;
+                // }}
               />
             </div>
             <div className="card-details">
@@ -143,11 +143,11 @@ const GenericViewCard = ({ data, type }) => {
           <>
             <div className="card-image">
               <img
-                src={vetData.avatar || vetData.photo || vetAvatar}
+                src={vetData.avatar || vetData.photo}
                 alt={vetData.firstName}
-                onError={(e) => {
-                  e.target.src = vetAvatar;
-                }}
+                // onError={(e) => {
+                //   e.target.src = vetAvatar;
+                // }}
               />
             </div>
             <div className="card-details">
@@ -183,12 +183,12 @@ const GenericViewCard = ({ data, type }) => {
             <div className="article-view-container">
               <div className="article-image-container">
                 <img
-                  src={articleData.avatar || articleData.photo || articleAvatar}
+                  src={articleData.avatar || articleData.photo}
                   alt={articleData.title}
                   className="article-image"
-                  onError={(e) => {
-                    e.target.src = articleAvatar;
-                  }}
+                  // onError={(e) => {
+                  //   e.target.src = articleAvatar;
+                  // }}
                 />
               </div>
 
@@ -227,12 +227,12 @@ const GenericViewCard = ({ data, type }) => {
             <div className="article-view-container">
               <div className="article-image-container">
                 <img
-                  src={diseaseData.avatar || diseaseData.photo || articleAvatar}
+                  src={diseaseData.avatar || diseaseData.photo}
                   alt={diseaseData.title}
                   className="article-image"
-                  onError={(e) => {
-                    e.target.src = articleAvatar;
-                  }}
+                  // onError={(e) => {
+                  //   e.target.src = articleAvatar;
+                  // }}
                 />
               </div>
 
@@ -271,14 +271,13 @@ const GenericViewCard = ({ data, type }) => {
                   src={
                     productData.avatar ||
                     productData.photo ||
-                    productData.images ||
-                    articleAvatar
+                    productData.images
                   }
                   alt={productData.title}
                   className="article-image"
-                  onError={(e) => {
-                    e.target.src = articleAvatar;
-                  }}
+                  // onError={(e) => {
+                  //   e.target.src = articleAvatar;
+                  // }}
                 />
               </div>
 
