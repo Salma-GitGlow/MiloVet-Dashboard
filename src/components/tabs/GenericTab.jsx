@@ -153,6 +153,7 @@ const GenericTab = ({
         <table className="table">
           <thead>
             <tr>
+              <th>#</th>
               {columns.map((column) => (
                 <th key={column.key}>{column.header}</th>
               ))}
@@ -160,8 +161,9 @@ const GenericTab = ({
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((item) => (
+            {filteredData.map((item, index) => (
               <tr key={item._id}>
+                <td>{index + 1}</td>
                 {columns.map((column) => (
                   <td key={`${item._id}-${column.key}`} className="truncate-id">
                     {column.render ? column.render(item) : item[column.key]}
